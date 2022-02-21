@@ -86,7 +86,7 @@ input[type=checkbox]{
         text-align: center;
         padding: 16px 0;
         background-color: dodgerblue;
-        top: 88px;
+        top: 75px;
     }
     .menu li:hover{
         display: inline-block;
@@ -105,3 +105,72 @@ input[type=checkbox]{
 
 /*REPONSIVE MENU END*/
 /*NAVBAR END*/
+
+/*BANNER START*/
+
+.banner {
+    padding: 50px;
+    text-align: center;
+    color: white;
+    font-size: 30px;
+    height: 300px;
+    background-image: url("https://www.sydney.com/sites/sydney/files/styles/open_graph/public/2021-03/175987-Header-Desktop_0.jpg?itok=0-ArEyZU");
+    background-size: cover;
+    transition: 0.3s;
+}
+
+.banner:hover {
+    opacity: 0.9;
+    transition: 0.3s;
+}
+/*BANNER END*/
+
+/*FOOTER START*/
+footer{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgb(5, 71, 170);
+    color: white;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    padding-top: 20px;
+}
+
+.footer-content p {
+    font-size: 14px;
+    color: rgb(161, 161, 161);
+}
+
+.socials {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 20px;
+    padding-top: 20px;
+
+}
+
+.socials li {
+    margin: 0 10px;
+}
+
+.socials a {
+    text-decoration: none;
+    color: white;
+    border: 1px solid;
+    border-radius: 50%;
+}
+
+.socials a:hover i {
+    color: #433bb3;
+}
+/*FOOTER END*/

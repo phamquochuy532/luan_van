@@ -10,5 +10,18 @@ class ControllerBase{
         require_once "./mvc/views/".$view.".php";
     }
 
+    public function redirect($controller,$method = "index",$args = array())
+    {
+        global $core; /* Guess Obviously */
+
+        $location = $core->config->base_url . "/" . $controller . "/" . $method . "/" . implode("/",$args);
+
+        /*
+            * Use @header to redirect the page:
+        */
+        header("Location: " . URL_ROOT . $location);
+        exit;
+    }
+
 }
 ?>

@@ -8,6 +8,11 @@ class App{
     function __construct(){
  
         $arr = $this->UrlProcess();
+        if(!$arr) {
+            $arr[0] = "Home";
+            $arr[1] = "Index";
+
+        }
  
         // Controller Home/Index
         if( file_exists("./mvc/controllers/".$arr[0].".php") ){

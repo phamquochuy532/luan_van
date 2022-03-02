@@ -13,10 +13,20 @@
             <p><input type="email" placeholder="Email" name="email" required></p>
             <p><input type="date" name="dob" required></p>
             <p><input type="text" placeholder="Địa chỉ" name="address" required></p>
-            <p><input type="password" placeholder="Mật khẩu" name="password" required></p>
+            <p><input type="password" id="password" placeholder="Mật khẩu" name="password" required></p>
+            <p><input type="password" placeholder="Nhập lại mật khẩu" name="repassword" required oninput="check(this)"></p>
             <p class="<?= $data["cssClass"] ?>"><?= isset($data['message']) ? $data['message'] : "" ?></p>
             <p><input type="submit" value="Đăng ký"></p>
         </form>
     </div>
     <?php require APP_ROOT . '/views/inc/footer.php';?>
+    <script>
+        function check(input){
+            if (input.value != document.getElementById('password').value){
+                input.setCustomValidity('Nhập lại mật khaaue không trùng khớp');
+            }else {
+                input.setCustomValidity('');
+            }
+        }
+    </script>
 </body>

@@ -48,11 +48,27 @@ class UserModel extends DB
             $mail->Body = "<h3>Cảm ơn bạn đã đăng ký tài khoản tại website HUYPHAM STORE</h3></br>Đây là mã xác minh tài khoản của bạn: " . $captcha . "";
 
             $mail->Send();
-            var_dump($mail);
-            die();
             return true;
         }else {
             return false;
         }
     }
+
+    public function confirm($email, $captcha){
+        $sql = "SELECT * FROM Users WHERE email='$email' AND captcha='$captcha'";
+        $result = mysqli_query($this->con, $sql);
+        $num_rows = mysqli_num_rows($result);
+        if ($num_rows > 0) {
+            $sql = "UPDATE Users SET isConfirmed=1 WHERE email='$email'";
+            $re = mysqli_query($this->con, $sql);
+            if ($re) {
+                return true;
+            }else {
+                return false;
+            }
+        }else {
+            return false;
+        }
+    }
+
 }

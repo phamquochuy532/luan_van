@@ -43,8 +43,36 @@ class User extends ControllerBase
             $dob = $_POST['dob'];
             $address = $_POST['address'];
             $password = $_POST['password'];
+            $phone = $_POST['phone'];
 
             $user = $this->model("UserModel");
+            $checkEmail = $user->checkEmail($email);
+            if (!$checkEmail) {
+                $checkPhone = $user->checkPhone($phone);
+                if (!$checkPhone) {
+                    $this->view("register", [
+                        "headTitle" => "Đăng ký",
+                        "messageEmail" => "Email đã tồn tại ",
+                        "messagePhone" => "Số điện thoại đã tồn tại",
+                    ]);
+                } else {
+                    $this->view("register", [
+                        "headTitle" => "Đăng ký",
+                        "messageEmail" => "Email đã tồn tại ",
+                    ]);
+                }
+                return;
+            } else {
+                $checkPhone = $user->checkPhone($phone);
+                if (!$checkPhone) {
+                    $this->view("register", [
+                        "headTitle" => "Đăng ký",
+                        "messagePhone" => "Số điện thoại đã tồn tại",
+                    ]);
+                }
+                return;
+            }
+
             $result = $user->insert($fullName, $email, $dob, $address, $password);
             if ($result) {
                 $this->redirect("User", "confirm", [
@@ -74,22 +102,22 @@ class User extends ControllerBase
             if ($result) {
                 $this->view("confirm", [
                     "headTitle" => "Xác minh tài khoản",
-                    "email"=>$email,
-                    "cssClass"=>"success",
-                    "message"=>"Xác minh tài khoản thành công"
+                    "email" => $email,
+                    "cssClass" => "success",
+                    "message" => "Xác minh tài khoản thành công"
                 ]);
-            }else {
+            } else {
                 $this->view("confirm", [
                     "headTitle" => "Xác minh tài khoản",
-                    "email"=>$email,
-                    "cssClass"=>"error",
-                    "message"=>"Mã xác minh không đúng"
+                    "email" => $email,
+                    "cssClass" => "error",
+                    "message" => "Mã xác minh không đúng"
                 ]);
             }
-        }else {
+        } else {
             $this->view("confirm", [
                 "headTitle" => "Xác minh tài khoản",
-                "email"=>$email
+                "email" => $email
             ]);
         }
     }

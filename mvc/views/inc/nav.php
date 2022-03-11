@@ -4,15 +4,15 @@
         <input type="checkbox" id="checkbox_toggle" />
         <label for="checkbox_toggle" class="hamburger">&#9776;</label>
         <div class="menu">
-            <li><a href="#">Trang chủ</a></li>
+            <li><a href="<?= URL_ROOT ?>">Trang chủ</a></li>
             <li class="cate">
                 <a href="#">Danh mục</a>
                 <ul class="sub-menu">
-                    <li><a href="products.html">Danh mục 1</a></li>
-                    <li><a href="products.html">Danh mục 2</a></li>
-                    <li><a href="products.html">Danh mục 3</a></li>
-                    <li><a href="products.html">Danh mục 4</a></li>
-                    <li><a href="products.html">Danh mục 5</a></li>
+                    <?php
+                    foreach ($data['cates'] as $key) { ?>
+                        <li><a href="<?= URL_ROOT . '/product/category/' . $key['id'] ?>"><?= $key['name'] ?></a></li>
+                    <?php }
+                    ?>
                 </ul>
             </li>
             <li><a href="#">Giới thiệu</a></li>

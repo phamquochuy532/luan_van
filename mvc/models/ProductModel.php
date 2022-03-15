@@ -56,4 +56,15 @@ class ProductModel
         $result = mysqli_query($db->con, $sql);
         return $result;
     }
+
+    public function checkQuantity($Id, $qty) {
+        $db = DB ::getInstance();
+        $sql = "SELECT quantity FROM Products WHERE  status = 1 AND Id ='$Id' ";
+        $result = mysqli_query($db->con, $sql);
+        $product = $result->fetch_assoc();
+        if (intval($qty) > intval($product['quantity'])) {
+            return false;
+        }
+        return true;
+    }
 }

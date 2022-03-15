@@ -1,3 +1,12 @@
+<?php
+        // Khởi tạo model để gọi các hàm
+        $category = $this->model("CategoryModel");
+        // Gọi hàm getAllClient để lấy ra danh sách danh mục để hiện thị lên menu
+        $cates = $category->getAllClient();
+
+        $listCategory = $cates-> fetch_all(MYSQLI_ASSOC);
+?>
+
 <nav class="navbar">
     <div class="logo">HUYPHAM STORE</div>
     <ul class="nav-links">
@@ -9,7 +18,7 @@
                 <a href="#">Danh mục</a>
                 <ul class="sub-menu">
                     <?php
-                    foreach ($data['cates'] as $key) { ?>
+                    foreach ($listCategory as $key) { ?>
                         <li><a href="<?= URL_ROOT . '/product/category/' . $key['id'] ?>"><?= $key['name'] ?></a></li>
                     <?php }
                     ?>
@@ -25,7 +34,7 @@
             <?php
             }
             ?>
-            <li><a href="#"><i class="fa fa-shopping-bag"></i></a></li>
+            <li><a href="<?= URL_ROOT ?>/cart/checkout"><i class="fa fa-shopping-bag"></i></a></li>
         </div>
     </ul>
 </nav>

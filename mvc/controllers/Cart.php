@@ -22,8 +22,9 @@ class Cart extends ControllerBase{
              $p = $result->fetch_assoc();
              //Thêm sản phẩm vào giỏ hàng
              $_SESSION['cart'][$p['id']] = array(
+                 "productId"=>$p['id'],
                  "productName"=>$p['name'],
-                 "productimage"=>$p['image'],
+                 "productImage"=>$p['image'],
                  "quantity"=>1,
                  "price"=>$p['promotionPrice']
              );
@@ -32,9 +33,46 @@ class Cart extends ControllerBase{
     }
 
     public function checkout() {
+        // Hiển thị trang xem giỏ hàng
         $this->view('checkout',[
             "headTitle"=>"Xem giỏ hàng"
         ]);
     }
+
+    public function removeItemCart($productId) {
+        //Xóa sản phẩm khỏi giỏ hàng
+        unset($_SESSION['cart'][$productId]);
+        //Kiểm tra sản phẩm đã xóa chưa
+        if (!isset($_SESSION['cart'][$productId])) {
+            echo '<script>alert("Xóa sản phẩm thành công!");window.history.back();</script>';
+         }
+    } 
+
+    public function getTotalQuantityCart() {
+        //Kiểm tra giỏ hàng có tồn tại chưa
+        $total = 0;
+        if (isset($_SESSION['cart'])) {
+            // Duyệt từng sản phẩm để cộng vào total
+            foreach($_SESSION['cart'] as $key => $value) {
+                $total += $value['quantity'];
+            }
+            return $total;
+        }
+    }
+
+    public function updateItemCart($productId, $qty) {
+        // Khởi tạo model để gọi các hàm
+        $product = $this->model('ProductModel');
+        // gọi hàm checkQuantity để kiểm tra số lượng tồn
+        $check = $product->checkQuantity($productId, $qty);
+        if ($check) {
+            // cập nhật số lượng sản phẩm
+            $_SESSION['cart'][$productId]['quantity'] = $qty;
+            // Trả về OK
+            http_response_code(200);
+        }else {
+            // Trả về lỗi 501 not emplemented
+            http_response_code(501);
+        }
+    }
 }
-?>

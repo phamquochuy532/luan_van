@@ -46,6 +46,21 @@
         ?>
     </table>
 
+    <form action="<?= URL_ROOT . '/order/add' ?>" method ="post">
+            <select name="payment">
+                <option value="COD">COD</option>
+                <option value="Paypal">Paypal</option>
+                <option value="Momo">Momo</option>
+            </select>
+                <?php 
+                if (isset($_SESSION['user_id'])) {?>
+                    <input type="submit" value = "Tiến hành đặt hàng">
+                <?php }else { ?>
+                    <a href="<?= URL_ROOT . '/user/login' ?>">Đăng nhập để đặt hàng</a>
+                <?php }
+                 ?>
+    </form>
+
     <?php require APP_ROOT . '/views/inc/footer.php'; ?>
     <Script>
         var list = document.getElementsByClassName("qty");

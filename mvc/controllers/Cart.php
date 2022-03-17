@@ -34,7 +34,7 @@ class Cart extends ControllerBase{
 
     public function checkout() {
         // Hiển thị trang xem giỏ hàng
-        $this->view('checkout',[
+        $this->view('/client/checkout',[
             "headTitle"=>"Xem giỏ hàng"
         ]);
     }

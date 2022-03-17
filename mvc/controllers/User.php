@@ -30,14 +30,14 @@ class User extends ControllerBase
                 $this->redirect("Home");
             } else {
                 // Hiển thị sai
-                $this->view("login", [
+                $this->view("/client/login", [
                     "headTitle" => "Đăng nhập",
                     "message" => "Tài khoản hoặc mật khẩu không đúng!"
                 ]);
             }
         } else {
             // Hiển thị trang view
-            $this->view("login", [
+            $this->view("/client/login", [
                 "headTitle" => "Đăng nhập"
             ]);
         }
@@ -72,14 +72,14 @@ class User extends ControllerBase
                 $checkPhone = $user->checkPhone($phone);
                 if (!$checkPhone) {
                     // Hiển thị email và phone đã tồn tại
-                    $this->view("register", [
+                    $this->view("/client/register", [
                         "headTitle" => "Đăng ký",
                         "messageEmail" => "Email đã tồn tại ",
                         "messagePhone" => "Số điện thoại đã tồn tại",
                     ]);
                 } else {
                     // Hiển thị email đã tồn tại
-                    $this->view("register", [
+                    $this->view("/client/register", [
                         "headTitle" => "Đăng ký",
                         "messageEmail" => "Email đã tồn tại ",
                     ]);
@@ -90,7 +90,7 @@ class User extends ControllerBase
                 $checkPhone = $user->checkPhone($phone);
                 if (!$checkPhone) {
                     // Hiển thị phone đã tồn tại
-                    $this->view("register", [
+                    $this->view("/client/register", [
                         "headTitle" => "Đăng ký",
                         "messagePhone" => "Số điện thoại đã tồn tại",
                     ]);
@@ -107,7 +107,7 @@ class User extends ControllerBase
                 ]);
             } else {
                 // Hiển thị lỗi
-                $this->view("register", [
+                $this->view("/client/register", [
                     "headTitle" => "Đăng ký",
                     "cssClass" => "error",
                     "message" => "Đăng ký thất bại",
@@ -115,7 +115,7 @@ class User extends ControllerBase
             }
         } else {
             // Hiển thị trang register
-            $this->view("register", [
+            $this->view("/client/register", [
                 "headTitle" => "Đăng ký"
             ]);
         }
@@ -136,7 +136,7 @@ class User extends ControllerBase
 
             if ($result) {
                 // Hiển thị thành công
-                $this->view("confirm", [
+                $this->view("/client/confirm", [
                     "headTitle" => "Xác minh tài khoản",
                     "email" => $email,
                     "cssClass" => "success",
@@ -144,7 +144,7 @@ class User extends ControllerBase
                 ]);
             } else {
                 // Hiển thị mã xác minh không đúng
-                $this->view("confirm", [
+                $this->view("/client/confirm", [
                     "headTitle" => "Xác minh tài khoản",
                     "email" => $email,
                     "cssClass" => "error",
@@ -153,7 +153,7 @@ class User extends ControllerBase
             }
         } else {
             // Hiển thị trang xác minh
-            $this->view("confirm", [
+            $this->view("/client/confirm", [
                 "headTitle" => "Xác minh tài khoản",
                 "email" => $email
             ]);

@@ -18,7 +18,7 @@ class Product extends ControllerBase
         $cates = $category->getAllClient();
 
         // Hiển thị trang single
-        $this->view("single", [
+        $this->view("/client/single", [
             "headTitle" => $p['name'],
             "product" => $p,
             "cates" => $cates
@@ -41,7 +41,7 @@ class Product extends ControllerBase
         $cates = $category->getAllClient();
 
         // Hiển thị tragn products
-         $this->view('products',[
+         $this->view('/client/products',[
              "headTitle" => "Tìm kiếm",
              "title" => "Tìm kiếm với từ khóa: ". $keyword,
              "productList" => $productList,
@@ -65,7 +65,7 @@ class Product extends ControllerBase
         //fetch
         $productList = $result->fetch_all(MYSQLI_ASSOC);
         // Hiển thị trang category
-        $this->view('category',[
+        $this->view('/client/category',[
             "headTitle" =>"Danh mục " .$cate['name'],
             "title" =>"Danh mục " .$cate['name'],
             "productList" =>$productList,

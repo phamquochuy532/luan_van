@@ -119,4 +119,11 @@ class UserModel
         }
     }
 
+    public function getRole($userId)
+    {
+        $db = DB::getInstance();
+        $sql = "SELECT roleId FROM users WHERE id='$userId'";
+        $result = mysqli_query($db->con, $sql);
+        return $result;
+    }
 }

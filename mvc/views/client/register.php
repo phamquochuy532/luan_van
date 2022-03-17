@@ -1,6 +1,6 @@
-<?php require APP_ROOT . '/views/inc/head.php';?>
+<?php require APP_ROOT . '/views/client/inc/head.php';?>
 <body>
-    <?php require APP_ROOT . '/views/inc/nav.php';?>
+    <?php require APP_ROOT . '/views/client/inc/nav.php';?>
     <div class="banner">
         <h1>SHOPPING ONLINE</h1>
         <p>Đặt hàng bất kì nơi đâu;)</p>
@@ -21,7 +21,7 @@
             <p><input type="submit" value="Đăng ký"></p>
         </form>
     </div>
-    <?php require APP_ROOT . '/views/inc/footer.php';?>
+    <?php require APP_ROOT . '/views/client/inc/footer.php';?>
     <script language='javascript' type='text/javascript'>
         function check(input) {
             if (input.value != document.getElementById('password').value) {

@@ -9,7 +9,7 @@ class Home extends ControllerBase{
 
         // Fetch
         $productList = $result->fetch_all(MYSQLI_ASSOC);
-        $this->view("index", [
+        $this->view("/client/index", [
             // Hiển thị trang chủ
             "headTitle" => "Trang chủ",
             "productList" => $productList

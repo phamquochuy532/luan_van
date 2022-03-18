@@ -2,6 +2,7 @@
 class Admin extends ControllerBase{
     public function Index()
     {
+        // Phân quyền
         // Khởi tạo model
         $user = $this->model("userModel");
         // Gọi hàm lấy quyền

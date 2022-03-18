@@ -25,13 +25,13 @@
                 <tr>
                     <td><?= ++$count ?></td>
                     <td><?= $value['id'] ?></td>
-                    <td><?= $value['createdDate'] ?></td>
+                    <td><?= date('d/m/Y h:i:s', strtotime($value['createdDate'])) ?></td>
                     <?php
                     if ($value['receivedDate']) { ?>
                         <?php if ($value['status'] == "received") { ?>
-                            <td><?= $value['receivedDate'] ?></td>
+                            <td><?= date('d/m/Y h:i:s', strtotime($value['receivedDate']))  ?></td>
                         <?php } else { ?>
-                            <td><?= $value['receivedDate'] ?> (dự kiến)</td>
+                            <td><?= date('d/m/Y', strtotime($value['receivedDate'])) ?> (dự kiến)</td>
                         <?php } ?>
                     <?php } else { ?>
                         <td>3 ngày sau khi đơn hàng được xác nhận</td>

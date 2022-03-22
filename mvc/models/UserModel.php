@@ -1,25 +1,22 @@
 <?php
-
 include_once(APP_ROOT . '/libs/PHPMailer.php');
 include_once(APP_ROOT . '/libs/Exception.php');
 include_once(APP_ROOT . '/libs/SMTP.php');
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-class UserModel
+class userModel
 {
     private static $instance = null;
 
     private function __construct()
     {
-
     }
 
     public static function getInstance()
     {
-        if (!self::$instance)
-        {
-            self::$instance = new UserModel();
+        if (!self::$instance) {
+            self::$instance = new userModel();
         }
 
         return self::$instance;
@@ -28,12 +25,12 @@ class UserModel
     public function checkLogin($email, $password)
     {
         $db = DB::getInstance();
-        $sql = "SELECT * FROM Users WHERE email='$email' AND password='$password'";
+        $sql = "SELECT * FROM users WHERE email='$email' AND password='$password' AND isConfirmed=1";
         $result = mysqli_query($db->con, $sql);
         $num_rows = mysqli_num_rows($result);
-        if ($num_rows >0) {
+        if ($num_rows > 0) {
             return $result;
-        }else {
+        } else {
             return false;
         }
     }
@@ -41,42 +38,43 @@ class UserModel
     public function checkEmail($email)
     {
         $db = DB::getInstance();
-        $sql = "SELECT * FROM Users WHERE email='$email' AND isConfirmed=1";
+        $sql = "SELECT * FROM users WHERE email='$email' AND isConfirmed=1";
         $result = mysqli_query($db->con, $sql);
         $num_rows = mysqli_num_rows($result);
-        if ($num_rows >0) {
+        if ($num_rows > 0) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
 
-    
     public function checkPhone($phone)
     {
         $db = DB::getInstance();
-        $sql = "SELECT * FROM Users WHERE phone ='$phone' AND isConfirmed=1";
+        $sql = "SELECT * FROM users WHERE phone='$phone' AND isConfirmed=1";
         $result = mysqli_query($db->con, $sql);
         $num_rows = mysqli_num_rows($result);
-        if ($num_rows >0) {
+        if ($num_rows > 0) {
             return false;
-        }else {
+        } else {
             return true;
         }
     }
 
-    public function insert($fullName,$email, $dob, $address, $password)
+    public function insert($fullName, $email, $dob, $address, $password)
     {
         $db = DB::getInstance();
-        //generate captcha
 
-        $captcha = rand(100000, 999999);
-        $sql = "INSERT INTO Users(`id`, `fullName`, `email`, `dob`, `address`, `password`, `roleId`, `status`, `captcha`, `isConfirmed`) 
-        VALUES (NULL,'$fullName','$email','$dob','$address','$password',1,1, '$captcha', 0)";
+        // Genarate captcha
+        $captcha = rand(10000, 99999);
+
+        $sql = "INSERT INTO users(`id`, `fullName`, `email`, `dob`, `address`, `password`, `roleId`, `status`,`captcha`, `isConfirmed`) VALUES (NULL,'$fullName','$email','$dob','$address','$password',1,1,'$captcha',0)";
         $result = mysqli_query($db->con, $sql);
         if ($result) {
-            // send email
+
+            // Send email
             $mail = new PHPMailer();
+            $mail->IsSMTP();
             $mail->Mailer = "smtp";
 
             $mail->SMTPDebug  = 0;
@@ -84,37 +82,40 @@ class UserModel
             $mail->SMTPSecure = "tls";
             $mail->Port       = 587;
             $mail->Host       = "smtp.gmail.com";
-            $mail->Username   = "huy3180712@gmail.com";
-            $mail->Password   = "181201Huy";
+            $mail->username   = "khuongip564gb@gmail.com";
+            $mail->Password   = "khuongip564gb";
 
             $mail->IsHTML(true);
             $mail->CharSet = 'UTF-8';
             $mail->AddAddress($email, "recipient-name");
-            $mail->SetFrom("huy3180712@gmail.com", "HUYPHAM STORE");
+            $mail->SetFrom("khuongip564gb@gmail.com", "HUYPHAM STORE");
             $mail->Subject = "Xác nhận email tài khoản - HUYPHAM STORE";
             $mail->Body = "<h3>Cảm ơn bạn đã đăng ký tài khoản tại website HUYPHAM STORE</h3></br>Đây là mã xác minh tài khoản của bạn: " . $captcha . "";
 
             $mail->Send();
+
             return true;
-        }else {
-            return false;
         }
+        return false;
     }
 
-    public function confirm($email, $captcha){
+    public function confirm($email, $captcha)
+    {
         $db = DB::getInstance();
-        $sql = "SELECT * FROM Users WHERE email='$email' AND captcha='$captcha'";
+
+        $sql = "SELECT * FROM users WHERE email='$email' AND captcha='$captcha'";
         $result = mysqli_query($db->con, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows > 0) {
-            $sql = "UPDATE Users SET isConfirmed=1 WHERE email='$email'";
+            // Update user is confirmed
+            $sql = "UPDATE users SET isConfirmed=1 WHERE email='$email'";
             $re = mysqli_query($db->con, $sql);
             if ($re) {
                 return true;
-            }else {
+            } else {
                 return false;
             }
-        }else {
+        } else {
             return false;
         }
     }
@@ -123,6 +124,22 @@ class UserModel
     {
         $db = DB::getInstance();
         $sql = "SELECT roleId FROM users WHERE id='$userId'";
+        $result = mysqli_query($db->con, $sql);
+        return $result;
+    }
+
+    public function getById($userId)
+    {
+        $db = DB::getInstance();
+        $sql = "SELECT * FROM users WHERE id='$userId'";
+        $result = mysqli_query($db->con, $sql);
+        return $result;
+    }
+
+    public function getTotalClient()
+    {
+        $db = DB::getInstance();
+        $sql = "SELECT COUNT(*) AS total FROM users WHERE roleId != 1";
         $result = mysqli_query($db->con, $sql);
         return $result;
     }

@@ -25,13 +25,13 @@
                 <tr>
                     <td><?= ++$count ?></td>
                     <td><?= $value['id'] ?></td>
-                    <td><?= date('d/m/Y h:i:s', strtotime($value['createdDate'])) ?></td>
+                    <td><?= $value['createdDate'] ?></td>
                     <?php
                     if ($value['receivedDate']) { ?>
                         <?php if ($value['status'] == "received") { ?>
-                            <td><?= date('d/m/Y h:i:s', strtotime($value['receivedDate']))  ?></td>
+                            <td><?= $value['receivedDate'] ?></td>
                         <?php } else { ?>
-                            <td><?= date('d/m/Y', strtotime($value['receivedDate'])) ?> (dự kiến)</td>
+                            <td><?= $value['receivedDate'] ?> (dự kiến)</td>
                         <?php } ?>
                     <?php } else { ?>
                         <td>3 ngày sau khi đơn hàng được xác nhận</td>
@@ -42,8 +42,12 @@
                         <td>Đang giao
                             <a href="<?= URL_ROOT . '/order/received/' . $value['id'] ?>">(Click vào nếu đã nhận được hàng)</a>
                         </td>
+                    <?php } else if ($value['status'] == "processing") { ?>
+                        <td>Chưa xác nhận</td>
+                    <?php } else if ($value['status'] == "processed") { ?>
+                        <td>Đã xác nhận</td>
                     <?php } else { ?>
-                        <td><?= $value['status'] ?></td>
+                        <td>Hoàn thành</td>
                     <?php }
                     ?>
                     <td><?= $value['paymentMethod'] ?></td>

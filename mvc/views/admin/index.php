@@ -28,7 +28,7 @@
                         <span class="ti-briefcase"></span>
                         <div>
                             <h5>TỎNG DOANH THU</h5>
-                            <h4>$30,659.45</h4>
+                            <h4><?= number_format($data['totalRevenue']['total'], 0, '', ',') ?> VND</h4>
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                         <span class="ti-user"></span>
                         <div>
                             <h5>KHÁCH HÀNG</h5>
-                            <h4>120</h4>
+                            <h4><?= number_format($data['totalClient']['total'], 0, '', ',') ?></h4>
                         </div>
                     </div>
                 </div>
@@ -47,8 +47,8 @@
                     <div class="card-body">
                         <span class="ti-check-box"></span>
                         <div>
-                            <h5>ĐƠN HÀNG</h5>
-                            <h4>200</h4>
+                            <h5>ĐƠN HÀNG HOÀN THÀNH</h5>
+                            <h4><?= $data['totalOrderCompleted']['total'] ?></h4>
                         </div>
                     </div>
                 </div>
@@ -76,16 +76,26 @@
                                     foreach ($data['orderList'] as $key => $value) {
                                     ?>
                                         <tr>
-                                            <td><?= ++$count ?></td>
+                                        <td><?= ++$count ?></td>
                                             <td><?= $value['id'] ?></td>
                                             <td><?= $value['createdDate'] ?></td>
-                                            <td><?= $value['status'] ?></td>
+                                            <?php
+                                            if ($value['status'] == "processing") { ?>
+                                                <td><span class="gray">Chưa xác nhận</span></td>
+                                            <?php  } else if ($value['status'] == "processed") { ?>
+                                                <td><span class="blue">Đã xác nhận</span></td>
+                                            <?php } else if ($value['status'] == "delivery") { ?>
+                                                <td><span class="yellow">Đang giao hàng</span></td>
+                                            <?php }else{ ?>
+                                                <td><span class="active">Hoàn thành</span></td>
+                                            <?php }
+                                            ?>
                                             <td><?= $value['paymentMethod'] ?></td>
                                             <?php
                                             if ($value['paymentStatus']) { ?>
-                                                <td>Đã thanh toán</td>
+                                                <td><span class="active">Đã thanh toán</span></td>
                                             <?php } else { ?>
-                                                <td>Chưa thanh toán</td>
+                                                <td><span class="gray">Chưa thanh toán</span></td>
                                             <?php }
                                             ?>
                                             <td><a href="<?= URL_ROOT . '/orderManage/detail/' . $value['id'] ?>">Chi tiết</a></td>

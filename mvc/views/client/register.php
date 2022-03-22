@@ -2,8 +2,7 @@
 <body>
     <?php require APP_ROOT . '/views/client/inc/nav.php';?>
     <div class="banner">
-        <h1>SHOPPING ONLINE</h1>
-        <p>Đặt hàng bất kì nơi đâu;)</p>
+       
     </div>
     <div class="login">
         <div class="login-triangle"></div>

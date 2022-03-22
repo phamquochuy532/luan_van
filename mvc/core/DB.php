@@ -17,16 +17,13 @@ class DB{
 
     public static function getInstance()
     {
-        if (!self::$instance)
-        {
-            self::$instance = new DB();
-        }
-
-        return self::$instance;
+      if(!self::$instance)
+      {
+        self::$instance = new DB();
+      }
+     
+      return self::$instance;
     }
-
-
-
 }
 
 ?>

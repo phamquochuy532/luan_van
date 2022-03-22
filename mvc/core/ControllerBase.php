@@ -23,6 +23,5 @@ class ControllerBase{
         header("Location: " . URL_ROOT . $location);
         exit;
     }
-
 }
 ?>

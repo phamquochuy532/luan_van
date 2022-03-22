@@ -3,12 +3,11 @@
 <body>
     <?php require APP_ROOT . '/views/client/inc/nav.php'; ?>
     <div class="banner">
-        <h1>SHOPPING ONLINE</h1>
-        <p>Đặt hàng bất kì nơi đâu;)</p>
+       
     </div>
     <div class="title">Sản phẩm nổi bật</div>
     <div class="search-container">
-        <form action="<?= URL_ROOT ?>/product/search" method="post">
+        <form action="<?= URL_ROOT ?>/product/search" method="get">
             <input type="text" class="search" placeholder="Tìm kiếm.." name="keyword">
             <button type="submit"><i class="fa fa-search"></i></button>
         </form>
@@ -23,7 +22,7 @@
                         <h1><?= $key['name'] ?></h1>
                     </a>
                     <p class="price"><?= number_format($key['promotionPrice'], 0, '', ',') ?>VND</p>
-                    <p><a href="<?= URL_ROOT . '/cart/addItemCart/' . $key['id'] ?>"><button>Thêm vào giỏ</button></a></p>
+                    <p><a href="<?= URL_ROOT . '/cart/addItemcart/' . $key['id'] ?>"><button>Thêm vào giỏ</button></a></p>
                 </div>
             <?php }
         } else { ?>
@@ -32,13 +31,6 @@
         ?>
     </div>
     <?php require APP_ROOT . '/views/client/inc/footer.php'; ?>
-    <script>
-        const selectElement = document.querySelector('.search');
-
-        selectElement.addEventListener('change', (event) => {
-            document.getElementsByClassName(".search").href = document.getElementsByClassName(".search").href + event.target.value;
-        });
-    </script>
 </body>
 
 </html>

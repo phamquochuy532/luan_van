@@ -35,7 +35,7 @@ class orderModel
     public function add($userId, $total)
     {
         $db = DB::getInstance();
-        $sql = "INSERT INTO `orders` (`id`, `userId`, `createdDate`, `receivedDate`, `status`, `paymentMethod`, `paymentStatus`, `payDate`, `total`) VALUES (NULL, '$userId', DATE_FORMAT('" . Date('d/m/y H:i:s') . "', '%d-%m-%y %H:%i:%s'), NULL, 'processing', 'COD',0,NULL,'$total')";
+        $sql = "INSERT INTO `orders` (`id`, `userId`, `createdDate`, `receivedDate`, `status`, `paymentMethod`, `paymentStatus`, `payDate`, `total`) VALUES (NULL, '$userId', '" . date('d/m/y') . "', NULL, 'processing', 'COD',0,NULL,'$total')";
         $result = mysqli_query($db->con, $sql);
 
         if ($result) {
@@ -68,7 +68,7 @@ class orderModel
     public function processed($Id)
     {
         $db = DB::getInstance();
-        $sql = "UPDATE orders SET status = 'processed', receivedDate =  DATE_FORMAT('" . Date('d/m/y', strtotime('+3 days')) . "', '%d-%m-%y') WHERE id = $Id";
+        $sql = "UPDATE orders SET status = 'processed', receivedDate = '" . Date('d/m/y', strtotime('+3 days')) . "' WHERE id = $Id";
         $result = mysqli_query($db->con, $sql);
         return $result;
     }
@@ -84,20 +84,16 @@ class orderModel
     public function received($Id)
     {
         $db = DB::getInstance();
-        // Cập nhật status thành received
-        // receivedDate và payDate thành ngày hiện tại
-        $sql = "UPDATE orders SET status = 'received', receivedDate = DATE_FORMAT('" . Date('d/m/y H:i:s') . "', '%d-%m-%y %H:%i:%s'), paymentStatus = 1, payDate =  DATE_FORMAT('" . Date('d/m/y H:i:s') . "', '%d-%m-%y %H:%i:%s') WHERE id = $Id";
+        $sql = "UPDATE orders SET status = 'received', receivedDate = '" . Date('d/m/y') . "', paymentStatus = 1, payDate = '" . Date('d/m/y') . "' WHERE id = $Id";
         $result = mysqli_query($db->con, $sql);
         if ($result) {
-            // Lấy ra danh sách chi tiết đơn hàng để cập nhật số lượng đã bán cho sản phẩm
             $sqlOrderDetail = "SELECT * FROM `order_details` WHERE orderId = $Id";
             $resultOrderDetail = mysqli_query($db->con, $sqlOrderDetail);
             $listOrderDetail = $resultOrderDetail->fetch_all(MYSQLI_ASSOC);
 
-            // Cập nhật số lượng đã bán
             foreach ($listOrderDetail as $key => $value) {
-                $sqlUpdateSold = "UPDATE products SET soldCount = soldCount + " . $value['qty'] . " WHERE id = " . $value['productId'] . "";
-                $resultUpdateSold = mysqli_query($db->con, $sqlUpdateSold);
+                $sqlUpdateSold = "UPDATE products SET soldCount = soldCount + " . $value['qty'] . " WHERE productId = " . $value['productId'] . "";
+                $resultUpdateSold = mysqli_query($db->con, $sql);
             }
         }
         return $resultUpdateSold;
@@ -106,7 +102,23 @@ class orderModel
     public function payment($orderId)
     {
         $db = DB::getInstance();
-        $sql = "UPDATE orders SET paymentStatus = 1, paymentMethod = 'VNPay', payDate = '" . Date('d/m/y H:i:s') . "' WHERE id = $orderId";
+        $sql = "UPDATE orders SET paymentStatus = 1, paymentMethod = 'VNPay', payDate = '" . Date('d/m/y') . "' WHERE id = $orderId";
+        $result = mysqli_query($db->con, $sql);
+        return $result;
+    }
+
+    public function getTotalRevenue()
+    {
+        $db = DB::getInstance();
+        $sql = "SELECT SUM(total) AS total FROM orders";
+        $result = mysqli_query($db->con, $sql);
+        return $result;
+    }
+
+    public function getTotalOrderCompleted()
+    {
+        $db = DB::getInstance();
+        $sql = "SELECT COUNT(*) AS total FROM orders WHERE status = 'received'";
         $result = mysqli_query($db->con, $sql);
         return $result;
     }

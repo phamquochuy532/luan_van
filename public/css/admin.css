@@ -227,6 +227,7 @@ th, td {
     font-size: .9rem;
     padding: 1rem 1rem;
     color: var(--color-dark);
+    text-align: center;
 }
 
 td {
@@ -343,6 +344,34 @@ tbody tr:nth-child(even) {
     border: 1px solid var(--main-color);
     border-radius: 4px;
     padding: .4rem 1rem;
+    margin: 2px 2px;
+}
+
+.button-red {
+    background: rgb(212, 22, 22); 
+    color: #fff;
+    border: 1px solid rgb(116, 4, 4);
+    border-radius: 4px;
+    padding: .4rem 1rem;
+    margin: 2px 2px;
+}
+
+.button-green {
+    background: rgb(22, 212, 38); 
+    color: #fff;
+    border: 1px solid rgb(23, 116, 4);
+    border-radius: 4px;
+    padding: .4rem 1rem;
+    margin: 2px 2px;
+}
+
+.button-normal {
+    background: white;
+    color: var(--main-color);
+    border: 1px solid var(--main-color);
+    border-radius: 4px;
+    padding: .4rem 1rem;
+    margin: 2px 2px;
 }
 
 .table-responsive {
@@ -439,4 +468,97 @@ tbody tr:nth-child(even) {
 
 .right{
     float: right;
+}
+
+/*FORM START*/
+input, textarea, select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  input[type=submit] {
+      float: right;
+    width: 10%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  input[type=submit]:hover {
+    background-color: #45a049;
+  }
+  
+  .form {
+    border-radius: 5px;
+    background-color: white;
+    padding: 20px;
+  }
+/*FORM  END*/
+
+.error{
+    color: red;
+  }
+  .success{
+    color: green;
+  }
+  .img{
+      height: 200px;
+  }
+  .active{
+    background: rgb(9, 136, 20); 
+    color: #fff;
+    border: 1px solid rgb(23, 116, 4);
+      padding: 5px;
+      border-radius: 20px;
+  }
+  
+  .gray{
+    background: gray; 
+    color: #fff;
+    border: 1px solid rgb(56, 56, 56); 
+    padding: 5px;
+    border-radius: 20px;
+  }
+  .blue{
+    background: #027581; 
+    color: #fff;
+    border: 1px solid #003136; 
+    padding: 5px;
+    border-radius: 20px;
+  }
+  .yellow{
+    background: rgb(190, 190, 0); 
+    color: #fff;
+    border: 1px solid rgb(95, 95, 0); 
+    padding: 5px;
+    border-radius: 20px;
+  }
+  .block{
+    background: rgb(156, 15, 15); 
+    color: #fff;
+    border: 1px solid rgb(116, 4, 4);
+    padding: 5px;
+    border-radius: 20px;
+}
+.back{
+    float: right;
+    height: 48px;
+    width: 10%;
+    background-color: #ffffff;
+    color: rgb(64, 119, 0);
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 1px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 10px;
 }

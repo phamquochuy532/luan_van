@@ -37,6 +37,21 @@ class userModel
         }
     }
 
+    public function checkCurrentPassword($userId, $password)
+    {
+        $db = DB::getInstance();
+        // Mã hóa password
+        $md5Password = md5($password);
+        $sql = "SELECT * FROM users WHERE id='$userId' AND password='$md5Password' AND isConfirmed=1";
+        $result = mysqli_query($db->con, $sql);
+        $num_rows = mysqli_num_rows($result);
+        if ($num_rows > 0) {
+            return $result;
+        } else {
+            return false;
+        }
+    }
+
     public function checkEmail($email)
     {
         $db = DB::getInstance();
@@ -145,6 +160,37 @@ class userModel
     {
         $db = DB::getInstance();
         $sql = "SELECT COUNT(*) AS total FROM users WHERE roleId != 1";
+        $result = mysqli_query($db->con, $sql);
+        return $result;
+    }
+
+    public function checkPhoneUpdate($phone)
+    {
+        $db = DB::getInstance();
+        $sql = "SELECT * FROM users WHERE phone='$phone' AND isConfirmed=1 AND id!=" . $_SESSION['user_id'];
+        $result = mysqli_query($db->con, $sql);
+        $num_rows = mysqli_num_rows($result);
+        if ($num_rows > 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public function update($user)
+    {
+        $db = DB::getInstance();
+        $sql = "UPDATE `users` SET `fullName`='" . $user['fullName'] . "',`dob`='" . $user['dob'] . "',`address`='" . $user['address'] . "',`phone`='" . $user['phone'] . "' WHERE id=" . $_SESSION['user_id'];
+        $result = mysqli_query($db->con, $sql);
+        return $result;
+    }
+
+    public function updatePassword($userId, $password)
+    {
+        $db = DB::getInstance();
+        // Mã hóa password
+        $md5Password = md5($password);
+        $sql = "UPDATE `users` SET `password`='" . $md5Password . "' WHERE id=" . $userId;
         $result = mysqli_query($db->con, $sql);
         return $result;
     }

@@ -123,24 +123,40 @@ input[type=checkbox]{
     margin: 0 auto;
     display: grid;
     grid-gap: 1rem;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 }
 .product-image{
     width: 100%;
     transition: 0.5s;
 }
 .card{
+  position: relative;
     box-shadow: 0 4px 8px rgb(0, 0, 0, 0.2);
-    max-width: 320px;
+    max-width: 200px;
+    height:350px;
     margin: 20px auto;
-    text-align: center;
     overflow: hidden;
+    background-color: rgb(245, 222, 222);
+}
+.card-img{
+  overflow: hidden;
+}
+.card a h1{
+  font-size: 20px;
+  text-align: center;
 }
 .price{
+  position: absolute;
+  bottom: 50px;
+  right: 0;
     color: rgb(177, 0, 0);
     font-size: 22px;
+    font-weight: bold;
+    text-align: center;
 }
 .card button{
+  position: absolute;
+  bottom: 0;
     border: none;
     outline: 0;
     padding: 12px;

@@ -131,7 +131,7 @@ input[type=checkbox]{
 }
 .card{
     box-shadow: 0 4px 8px rgb(0, 0, 0, 0.2);
-    max-width: 300px;
+    max-width: 320px;
     margin: 20px auto;
     text-align: center;
     overflow: hidden;

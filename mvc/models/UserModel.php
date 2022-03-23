@@ -25,7 +25,9 @@ class userModel
     public function checkLogin($email, $password)
     {
         $db = DB::getInstance();
-        $sql = "SELECT * FROM users WHERE email='$email' AND password='$password' AND isConfirmed=1";
+        // Mã hóa password
+        $md5Password = md5($password);
+        $sql = "SELECT * FROM users WHERE email='$email' AND password='$md5Password' AND isConfirmed=1";
         $result = mysqli_query($db->con, $sql);
         $num_rows = mysqli_num_rows($result);
         if ($num_rows > 0) {
@@ -68,7 +70,10 @@ class userModel
         // Genarate captcha
         $captcha = rand(10000, 99999);
 
-        $sql = "INSERT INTO users(`id`, `fullName`, `email`, `dob`, `address`, `password`, `roleId`, `status`,`captcha`, `isConfirmed`) VALUES (NULL,'$fullName','$email','$dob','$address','$password',1,1,'$captcha',0)";
+        // Mã hóa password
+        $md5Password = md5($password);
+
+        $sql = "INSERT INTO users(`id`, `fullName`, `email`, `dob`, `address`, `password`, `roleId`, `status`,`captcha`, `isConfirmed`) VALUES (NULL,'$fullName','$email','$dob','$address','$md5Password',1,1,'$captcha',0)";
         $result = mysqli_query($db->con, $sql);
         if ($result) {
 

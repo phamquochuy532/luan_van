@@ -26,10 +26,17 @@ class botModel
             $sql = "SELECT replies FROM bot WHERE replies LIKE '%" . $queries . "%' OR queries LIKE '%" . $queries . "%'";
         }
         $result = mysqli_query($db->con, $sql);
-        if ($result) {
+        if (mysqli_num_rows($result) > 0) {
             $response = $result->fetch_all(MYSQLI_ASSOC);
             header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response,JSON_UNESCAPED_UNICODE);
+            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+        } else {
+            header('Content-Type: application/json; charset=utf-8');
+            echo json_encode([
+                [
+                    "replies" => "Chưa hỉu!"
+                ]
+            ], JSON_UNESCAPED_UNICODE);
         }
     }
 }

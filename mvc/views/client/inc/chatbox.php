@@ -11,8 +11,18 @@
                 </span>
             </button>
         </div>
-        <div class="chatbox__body">
-
+        <div class="chatbox__body" id="chat-body">
+            <div class="chatbox__body__message chatbox__body__message--left">
+                <img src="<?= URL_ROOT . '/public/images/admin.png' ?>" alt="Picture">
+                <div class="clearfix"></div>
+                <div class="ul_section_full">
+                    <ul class="ul_msg">
+                        <li><strong>Admin</strong></li>
+                        <li>Chào bạn, bạn cần shop tư vấn gì ạ?</li>
+                    </ul>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
         </div>
         <div class="panel-footer">
             <div class="input-group">
@@ -31,13 +41,61 @@
         document.getElementById('box').classList.toggle("chatbox--tray");
     }
 
+    var element = document.getElementById("btn-input");
+    element.addEventListener("keypress", function(event) {
+        if (event.key === "Enter" && element.value != "") {
+            send();
+        }
+    });
+
     function send() {
         var queries = document.getElementById('btn-input').value;
+        document.getElementById('chat-body').innerHTML += '<div class="chatbox__body__message chatbox__body__message--right">' +
+            '<img src="' + window.location + 'public/images/user.jpg" alt="Picture">' +
+            '<div class="clearfix"></div>' +
+            ' <div class="ul_section_full">' +
+            ' <ul class="ul_msg">' +
+            '<li><strong>Tui</strong></li>' +
+            '<li>' + queries + '</li>' +
+            '</ul>' +
+            '<div class="clearfix"></div>' +
+            '</div>' +
+            '</div>';
+        document.getElementById('btn-input').value = "";
+
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "http://localhost/luanvan/chat/send/" + queries, true);
         xhr.onload = function() {
             if (xhr.readyState === 4) {
                 if (xhr.readyState === 4) {
+                    var res = JSON.parse(this.responseText);
+                    var replies = "";
+                    if (res.length > 1) {
+                        replies = "<li><b>Có " + res.length + " kết quả tìm thấy:</b></li>";
+                    }
+                    for (let index = 0; index < res.length; index++) {
+                        if (res.length > 1) {
+                            replies += '<li>' + (index + 1) + ') ' + res[index].replies + '</li>';
+                        } else {
+                            replies += '<li>' + res[index].replies + '</li>';
+                        }
+                    }
+
+                    document.getElementById('chat-body').innerHTML += '<div class="chatbox__body__message chatbox__body__message--left">' +
+                        '<img src="' + window.location + 'public/images/admin.png" alt="Picture">' +
+                        '<div class="clearfix"></div>' +
+                        ' <div class="ul_section_full">' +
+                        ' <ul class="ul_msg">' +
+                        '<li><strong>Admin</strong></li>' +
+                        replies +
+                        '</ul>' +
+                        '<div class="clearfix"></div>' +
+                        '</div>' +
+                        '</div>';
+
+                    var myDiv = document.getElementById('chat-body');
+                    myDiv.scrollTop = 10000000;
+
                     // var status = xhr.status;
                     // if (status === 200) {
                     //     setTimeout(function() {

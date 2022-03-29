@@ -85,6 +85,7 @@
             xhr.send(null);
         }
     </script>
+    <?php require APP_ROOT . '/views/client/inc/chatbox.php'; ?>
 </body>
 
 </html>

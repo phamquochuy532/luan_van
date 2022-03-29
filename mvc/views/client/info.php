@@ -46,6 +46,7 @@
             <a href="<?= URL_ROOT . '/user/resetPassword'  ?>" class="cart-btn">Đổi mật khẩu</a>
         </div>
     </div>
+    <?php require APP_ROOT . '/views/client/inc/chatbox.php'; ?>
     <?php require APP_ROOT . '/views/client/inc/footer.php'; ?>
 </body>
 

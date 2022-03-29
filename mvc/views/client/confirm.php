@@ -15,6 +15,7 @@
       <p><input type="submit" value="Xác minh"></p>
     </form>
   </div>
+    <?php require APP_ROOT . '/views/client/inc/chatbox.php'; ?>
         <?php require APP_ROOT . '/views/client/inc/footer.php'; ?>
 </body>
 

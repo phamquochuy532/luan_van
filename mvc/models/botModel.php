@@ -27,16 +27,9 @@ class botModel
         }
         $result = mysqli_query($db->con, $sql);
         if (mysqli_num_rows($result) > 0) {
-            $response = $result->fetch_all(MYSQLI_ASSOC);
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode($response, JSON_UNESCAPED_UNICODE);
+            return $result->fetch_all(MYSQLI_ASSOC)[0];
         } else {
-            header('Content-Type: application/json; charset=utf-8');
-            echo json_encode([
-                [
-                    "replies" => "Chưa hỉu!"
-                ]
-            ], JSON_UNESCAPED_UNICODE);
+            return false;
         }
     }
 }

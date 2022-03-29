@@ -176,6 +176,7 @@ require_once APP_ROOT . '/core/Config.php';
 
         </form>
     </div>
+    <?php require APP_ROOT . '/views/client/inc/chatbox.php'; ?>
     <?php require APP_ROOT . '/views/client/inc/footer.php'; ?>
 </body>
 

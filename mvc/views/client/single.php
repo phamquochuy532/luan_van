@@ -21,6 +21,7 @@
       </div>
     </div>
   </main>
+    <?php require APP_ROOT . '/views/client/inc/chatbox.php'; ?>
         <?php require APP_ROOT . '/views/client/inc/footer.php'; ?>
 </body>
 </html>

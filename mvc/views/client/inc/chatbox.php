@@ -1,3 +1,7 @@
+<?php
+// $chat = new chat();
+// $data = $chat->getData();
+?>
 <div class="row">
     <div id="box" class="chatbox chatbox22 chatbox--tray">
         <div class="chatbox__title">
@@ -13,30 +17,55 @@
         </div>
         <div class="chatbox__body" id="chat-body">
             <div class="chatbox__body__message chatbox__body__message--left">
-                <img src="<?= URL_ROOT . '/public/images/admin.png' ?>" alt="Picture">
+                <img src="<?= URL_ROOT ?>/public/images/user.png" alt="Picture">
                 <div class="clearfix"></div>
                 <div class="ul_section_full">
                     <ul class="ul_msg">
                         <li><strong>Admin</strong></li>
-                        <li>Chào bạn, bạn cần shop tư vấn gì ạ?</li>
+                        <?php
+                        if (!isset($_SESSION['user_id'])) { ?>
+                            <li>Vui lòng <a href="<?= URL_ROOT ?>/user/login">ĐĂNG NHẬP</a> để chat!</li>
                     </ul>
                     <div class="clearfix"></div>
                 </div>
             </div>
         </div>
-        <div class="panel-footer">
-            <div class="input-group">
-                <input id="btn-input" type="text" required class="form-control input-sm chat_set_height" placeholder="Soạn tin nhắn..." tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" contenteditable="true" />
-                <span class="input-group-btn">
-                    <button class="btn bt_bg btn-sm" id="btn-chat" onclick="send()">
-                        Gửi
-                    </button>
-                </span>
-            </div>
-        </div>
+    <?php } else { ?>
+        <li>Chào bạn!</li>
+        </ul>
+        <div class="clearfix"></div>
     </div>
 </div>
+</div>
+<div class="panel-footer">
+    <div class="input-group">
+        <input id="btn-input" type="text" required class="form-control input-sm chat_set_height" placeholder="Soạn tin nhắn..." tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" contenteditable="true" />
+        <span class="input-group-btn">
+            <button class="btn bt_bg btn-sm" id="btn-chat" onclick="send()">
+                Gửi
+            </button>
+        </span>
+    </div>
+</div>
+<?php }
+?>
+
+</div>
+</div>
 <script>
+    var userId = "<?= isset($_SESSION['user_id']) ? $_SESSION['user_id'] : "" ?>";
+    var myDiv = document.getElementById('chat-body');
+    var refreshIntervalId = 0;
+    if (userId) {
+        loadData();
+        refreshIntervalId = window.setInterval(function() {
+            loadData();
+        }, 5000);
+
+        myDiv.scrollTop = 10000000;
+    }
+
+
     function box() {
         document.getElementById('box').classList.toggle("chatbox--tray");
     }
@@ -51,71 +80,130 @@
     function send() {
         var queries = document.getElementById('btn-input').value;
         document.getElementById('chat-body').innerHTML += '<div class="chatbox__body__message chatbox__body__message--right">' +
-            '<img src="' + window.location + 'public/images/user.jpg" alt="Picture">' +
+            '<img src="' + window.location + 'public/images/user.png" alt="Picture">' +
             '<div class="clearfix"></div>' +
             ' <div class="ul_section_full">' +
             ' <ul class="ul_msg">' +
-            '<li><strong>Tui</strong></li>' +
+            '<li><strong>Bạn</strong></li>' +
             '<li>' + queries + '</li>' +
             '</ul>' +
             '<div class="clearfix"></div>' +
             '</div>' +
             '</div>';
         document.getElementById('btn-input').value = "";
+        myDiv.scrollTop = 10000000;
 
         var xhr = new XMLHttpRequest();
         xhr.open("GET", "http://localhost/luanvan/chat/send/" + queries, true);
         xhr.onload = function() {
             if (xhr.readyState === 4) {
-                if (xhr.readyState === 4) {
+                var status = xhr.status;
+                if (status === 200) {
                     var res = JSON.parse(this.responseText);
-                    var replies = "";
-                    if (res.length > 1) {
-                        replies = "<li><b>Có " + res.length + " kết quả tìm thấy:</b></li>";
-                    }
-                    for (let index = 0; index < res.length; index++) {
-                        if (res.length > 1) {
-                            replies += '<li>' + (index + 1) + ') ' + res[index].replies + '</li>';
-                        } else {
-                            replies += '<li>' + res[index].replies + '</li>';
-                        }
-                    }
-
+                    console.log(res);
                     document.getElementById('chat-body').innerHTML += '<div class="chatbox__body__message chatbox__body__message--left">' +
                         '<img src="' + window.location + 'public/images/admin.png" alt="Picture">' +
                         '<div class="clearfix"></div>' +
                         ' <div class="ul_section_full">' +
                         ' <ul class="ul_msg">' +
                         '<li><strong>Admin</strong></li>' +
-                        replies +
+                        '<li>' + res.replies + '</li>' +
                         '</ul>' +
                         '<div class="clearfix"></div>' +
                         '</div>' +
                         '</div>';
 
-                    var myDiv = document.getElementById('chat-body');
-                    myDiv.scrollTop = 10000000;
-
-                    // var status = xhr.status;
-                    // if (status === 200) {
-                    //     setTimeout(function() {
-                    //         window.location.reload();
-                    //     }, 1000);
-
-                    // } else if (status === 501) {
-                    //     alert('Số lượng sản phẩm không đủ để thêm vào giỏ hàng!');
-                    //     // e.value = parseInt(e.value) - 1;
-                    //     window.location.reload();
-                    // } else {
-                    //     alert('Cập nhật giỏ hàng thất bại!');
-                    //     window.location.reload();
-                    // }
+                } else {
+                    document.getElementById('chat-body').innerHTML += '<div class="chatbox__body__message chatbox__body__message--left">' +
+                        '<img src="' + window.location + 'public/images/cry-sad.gif" alt="Picture">' +
+                        '<div class="clearfix"></div>' +
+                        ' <div class="ul_section_full">' +
+                        ' <ul class="ul_msg">' +
+                        '<li><strong>Server</strong></li>' +
+                        '<li>Lỗi không thể gửi tin nhắn!</li>' +
+                        '</ul>' +
+                        '<div class="clearfix"></div>' +
+                        '</div>' +
+                        '</div>';
+                    clearInterval(refreshIntervalId);
+                    sleep(2000);
+                    refreshIntervalId = window.setInterval(function() {
+                        loadData();
+                    }, 5000);
                 }
+                myDiv.scrollTop = 10000000;
             }
         };
         xhr.onerror = function(e) {
             console.error(xhr.statusText);
         };
         xhr.send(null);
+    }
+
+    function loadData() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost/luanvan/chat/getData", true);
+        xhr.onload = function() {
+            if (xhr.readyState === 4) {
+                document.getElementById('chat-body').innerHTML = "";
+
+                var status = xhr.status;
+                if (status === 200) {
+                    var res = JSON.parse(this.responseText);
+                    if (res.length > 0) {
+                        for (let index = 0; index < res.length; index++) {
+                            if (res[index].fromUserId == userId) {
+                                document.getElementById('chat-body').innerHTML += '<div class="chatbox__body__message chatbox__body__message--right">' +
+                                    '<img src="' + window.location + 'public/images/user.png" alt="Picture">' +
+                                    '<div class="clearfix"></div>' +
+                                    ' <div class="ul_section_full">' +
+                                    ' <ul class="ul_msg">' +
+                                    '<li><strong>Bạn</strong></li>' +
+                                    '<li>' + res[index].content + '</li>' +
+                                    '</ul>' +
+                                    '<div class="clearfix"></div>' +
+                                    '</div>' +
+                                    '</div>';
+                            } else {
+                                document.getElementById('chat-body').innerHTML += '<div class="chatbox__body__message chatbox__body__message--left">' +
+                                    '<img src="' + window.location + 'public/images/admin.png" alt="Picture">' +
+                                    '<div class="clearfix"></div>' +
+                                    ' <div class="ul_section_full">' +
+                                    ' <ul class="ul_msg">' +
+                                    '<li><strong>Admin</strong></li>' +
+                                    '<li>' + res[index].content + '</li>' +
+                                    '</ul>' +
+                                    '<div class="clearfix"></div>' +
+                                    '</div>' +
+                                    '</div>';
+                            }
+                        }
+                    } else {
+                        document.getElementById('chat-body').innerHTML += '<div class="chatbox__body__message chatbox__body__message--left">' +
+                            '<img src="' + window.location + 'public/images/admin.png" alt="Picture">' +
+                            '<div class="clearfix"></div>' +
+                            ' <div class="ul_section_full">' +
+                            ' <ul class="ul_msg">' +
+                            '<li><strong>Admin</strong></li>' +
+                            '<li>Chào bạn, bạn có cần tư vấn gì không ạ?</li>' +
+                            '</ul>' +
+                            '<div class="clearfix"></div>' +
+                            '</div>' +
+                            '</div>';
+                    }
+                }
+                myDiv.scrollTop = 10000000;
+            }
+        };
+        xhr.onerror = function(e) {
+            console.error(xhr.statusText);
+        };
+        xhr.send(null);
+    }
+
+    function sleep(ms) {
+        return new Promise((resolve) => {
+            setTimeout(resolve, ms);
+        });
     }
 </script>

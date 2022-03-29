@@ -12,6 +12,7 @@
         <h3><?= isset($data['thanks']) ? $data['thanks'] : "" ?></h3>
         <a href="<?= URL_ROOT ?>" class="cart-btn">Tiếp tục mua hàng</a>
     </div>
+    <?php require APP_ROOT . '/views/client/inc/chatbox.php'; ?>
     <?php require APP_ROOT . '/views/client/inc/footer.php'; ?>
 </body>
 

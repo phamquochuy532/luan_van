@@ -4,17 +4,11 @@ class chat extends ControllerBase
 {
     public function send($content)
     {
-        // Set header để gửi JSON về cho client
         header('Content-Type: application/json; charset=utf-8');
-        // khởi tạo model
         $message = $this->model("messageModel");
-        // Thêm tin nhắn vào csdl
         if ($message->insert($_SESSION['user_id'], 59, $content)) {
-            // Khởi tạo model
             $bot = $this->model("botModel");
-            // Lấy ra tin nhắn bot
             $result = $bot->getReplies($content);
-            // Set status code 200
             http_response_code(200);
             if ($result) {
                 // Insert DB
@@ -28,34 +22,27 @@ class chat extends ControllerBase
             //     ], JSON_UNESCAPED_UNICODE);
             // }
         } else {
-            // Set status code 500
             http_response_code(500);
         }
     }
 
     public function sendAdmin($content)
     {
-        // Set header để gửi JSON về cho client
         header('Content-Type: application/json; charset=utf-8');
-        // Khởi tạo model
         $message = $this->model("messageModel");
-        // Thêm tin nhắn vào csdl
         $result = $message->insert($_SESSION['user_id'], 59, $content);
         if ($result) {
-            // Set status code 200
+            // Insert DB
             http_response_code(200);
         } else {
-            // Set status code 500
             http_response_code(500);
         }
     }
 
     public function getData()
     {
-        // header('Content-Type: application/json; charset=utf-8');
-        // Khởi tạo model
+        header('Content-Type: application/json; charset=utf-8');
         $message = $this->model("messageModel");
-        // Lấy dữ liệu tin nhắn cũ
         $result = ($message->getData($_SESSION['user_id'], 59))->fetch_all(MYSQLI_ASSOC);
         echo json_encode($result, JSON_UNESCAPED_UNICODE);
     }

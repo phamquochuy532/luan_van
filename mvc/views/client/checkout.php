@@ -7,11 +7,11 @@
     </div>
     <div class="title">Giỏ hàng của tôi</div>
     <table id="table">
-
+ 
         <?php
         $count = 0;
         $total = 0;
-        if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) { ?>
+        if (isset($data['cart']) && count($data['cart']) > 0) { ?>
             <tr>
                 <th>STT</th>
                 <th>Tên sản phẩm</th>
@@ -20,15 +20,15 @@
                 <th>Đơn giá</th>
                 <th>Thao tác</th>
             </tr>
-            <?php foreach ($_SESSION['cart'] as $key => $value) {
-                $total += $value['price'] * $value['quantity'];
+            <?php foreach ($data['cart'] as $key => $value) {
+                $total += $value['productPrice'] * $value['quantity'];
             ?>
                 <tr>
                     <td><?= ++$count ?></td>
                     <td><?= $value['productName'] ?></td>
-                    <td><img class="img-table" src="<?= URL_ROOT . '/public/images/' . $value['productImage'] ?>" alt=""></td>
+                    <td><img class="img-table" src="<?= URL_ROOT . '/public/images/' . $value['image'] ?>" alt=""></td>
                     <td><input type="number" class="qty" name="" id="<?= $value['productId'] ?>" value="<?= $value['quantity'] ?>" onchange="update(this)"></td>
-                    <td><?= number_format($value['price'], 0, '', ',') ?>VND</td>
+                    <td><?= number_format($value['productPrice'], 0, '', ',') ?>₫</td>
                     <td><a href="<?= URL_ROOT . '/cart/removeItemcart/' . $value['productId'] ?>" class="rm-item-cart"><i class="fa fa-trash"></i></a></td>
                 </tr>
             <?php }
@@ -39,10 +39,10 @@
                 <td></td>
                 <td></td>
                 <td>Tổng tiền</td>
-                <td><?= number_format($total, 0, '', ',') ?>VND</td>
+                <td><?= number_format($total, 0, '', ',') ?>₫</td>
             </tr>
         <?php } else {  ?>
-            <h3>Giỏ hàng hiện đang trống...</h3>
+            <h3 style="text-align: center;">Giỏ hàng hiện đang trống...</h3>
         <?php }  ?>
     </table>
     <div class="payment">
@@ -85,7 +85,6 @@
             xhr.send(null);
         }
     </script>
-    <?php require APP_ROOT . '/views/client/inc/chatbox.php'; ?>
 </body>
 
 </html>

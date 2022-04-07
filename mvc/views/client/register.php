@@ -20,7 +20,6 @@
             <p><input type="submit" value="Đăng ký"></p>
         </form>
     </div>
-    <?php require APP_ROOT . '/views/client/inc/chatbox.php'; ?>
     <?php require APP_ROOT . '/views/client/inc/footer.php';?>
     <script language='javascript' type='text/javascript'>
         function check(input) {

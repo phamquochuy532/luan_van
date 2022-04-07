@@ -85,7 +85,6 @@
         </div>
     </div>
 
-    <?php require APP_ROOT . '/views/client/inc/chatbox.php'; ?>
     <?php require APP_ROOT . '/views/client/inc/footer.php'; ?>
 </body>
 
